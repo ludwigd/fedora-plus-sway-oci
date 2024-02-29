@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: fedora-plus-sway-oci
@@ -34,3 +35,13 @@ jobs:
           file: Containerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.4.0
+
+      - name: Sign the published container image
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+          COSIGN_EXPERIMENTAL: false
+          TAGS: ${{ steps.build-and-push.outputs.digest }}
+        run: cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}@${TAGS}
