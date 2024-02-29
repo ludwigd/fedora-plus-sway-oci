@@ -3,7 +3,10 @@ name: build
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - 'main'
+    paths-ignore:
+      - 'README.org'
     
 env:
   REGISTRY: ghcr.io
