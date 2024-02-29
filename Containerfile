@@ -1,7 +1,6 @@
 FROM quay.io/fedora-ostree-desktops/base:39
 
-COPY sway-supplemental.repo /etc/yum.repos.d/
-COPY packages.sh /
+COPY packages.sh filesystem/ /
 
 RUN sh /packages.sh && \
     rm /packages.sh && \

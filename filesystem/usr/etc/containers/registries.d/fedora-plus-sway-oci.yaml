@@ -1,0 +1,3 @@
+docker:
+  ghcr.io/ludwigd/fedora-plus-sway-oci:
+    use-sigstore-attachments: true
