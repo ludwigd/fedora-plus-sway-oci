@@ -22,3 +22,7 @@ RUN rpm-ostree install \
         tracker-miners \
 &&  rm -rf /var/* \
 &&  ostree container commit
+
+# Get rid of all intermediate layers
+FROM scratch
+COPY --from=0 / /
