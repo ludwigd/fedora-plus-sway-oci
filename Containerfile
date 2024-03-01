@@ -1,8 +1,24 @@
 FROM quay.io/fedora-ostree-desktops/base:39
 
-COPY packages.sh filesystem/ /
+COPY filesystem/ /
 
-RUN sh /packages.sh && \
-    rm /packages.sh && \
-    rm -rf /var/* && \
-    ostree container commit
+RUN rpm-ostree install \
+        foot \
+        gnome-icon-theme \
+        sway \
+        sway-wallpapers \
+        swaybg \
+        swaycaffeine \
+        swayidle \
+        swaylock \
+        thunar \
+        vim-enhanced \
+        wev \
+&&  rpm-ostree override remove \
+        firefox \
+        firefox-langpacks \
+        PackageKit-glib \
+        tracker \
+        tracker-miners \
+&&  rm -rf /var/* \
+&&  ostree container commit
